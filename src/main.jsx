@@ -6,7 +6,7 @@ import { AppProvider } from './context/AppContext'
 import { ProtectedRoute, RoleGuard } from './components/RoleGuard'
 import MainLayout from './components/MainLayout'
 import LoginPage from './pages/LoginPage'
-import DashboardPage from './pages/DashboardPage'
+import Dashboard from './pages/Dashboard'
 import UsersPage from './pages/UsersPage'
 import ChurchConfigPage from './pages/ChurchConfigPage'
 import Members from './pages/Members'
@@ -60,7 +60,7 @@ function AnnouncementsAccess() {
 }
 
 function AppRoutes() {
-  return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}><Route index element={<DashboardPage />} /><Route path="usuarios" element={<AdminOnly />} /><Route path="miembros" element={<MembersAccess />} /><Route path="ministerios" element={<MinistriesAccess />} /><Route path="eventos" element={<EventsAccess />} /><Route path="asistencia" element={<AttendanceAccess />} /><Route path="donaciones" element={<DonationsAccess />} /><Route path="comunicados" element={<AnnouncementsAccess />} /><Route path="configuracion" element={<ConfigAccess />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes>
+  return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}><Route index element={<Dashboard />} /><Route path="usuarios" element={<AdminOnly />} /><Route path="miembros" element={<MembersAccess />} /><Route path="ministerios" element={<MinistriesAccess />} /><Route path="eventos" element={<EventsAccess />} /><Route path="asistencia" element={<AttendanceAccess />} /><Route path="donaciones" element={<DonationsAccess />} /><Route path="comunicados" element={<AnnouncementsAccess />} /><Route path="configuracion" element={<ConfigAccess />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes>
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AppProvider><BrowserRouter><AppRoutes /></BrowserRouter></AppProvider></React.StrictMode>)
