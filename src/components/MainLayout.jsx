@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { Church, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, UserRound, X } from 'lucide-react'
+import { Church, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, UserRound, Users, BriefcaseBusiness, X } from 'lucide-react'
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { ROLE_LABELS, ROLES } from '../data/seedData'
@@ -7,6 +7,8 @@ import { ROLE_LABELS, ROLES } from '../data/seedData'
 const menuItems = [
   { to: '/', label: 'Inicio', icon: LayoutDashboard, roles: Object.values(ROLES) },
   { to: '/usuarios', label: 'Usuarios', icon: ShieldCheck, roles: [ROLES.ADMINISTRADOR] },
+  { to: '/miembros', label: 'Miembros', icon: Users, roles: [ROLES.ADMINISTRADOR, ROLES.PASTOR, ROLES.SECRETARIO, ROLES.COORDINADOR] },
+  { to: '/ministerios', label: 'Ministerios', icon: BriefcaseBusiness, roles: Object.values(ROLES) },
   { to: '/configuracion', label: 'Configuración', icon: Settings, roles: [ROLES.ADMINISTRADOR, ROLES.PASTOR] },
 ]
 
