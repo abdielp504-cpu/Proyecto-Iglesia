@@ -1,0 +1,11 @@
+<svg width="900" height="360" viewBox="0 0 900 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="c" x1="450" y1="0" x2="450" y2="360" gradientUnits="userSpaceOnUse"><stop stop-color="#F4E1C5"/><stop offset="1" stop-color="#D38A68"/></linearGradient></defs>
+  <rect width="900" height="360" fill="url(#c)"/><circle cx="735" cy="86" r="45" fill="#FFF2C7" fill-opacity=".82"/>
+  <path d="M0 276C129 239 235 276 359 241C481 206 599 271 717 235C794 211 854 222 900 211V360H0V276Z" fill="#476B5A"/>
+  <path d="M0 319C160 280 274 322 414 285C566 245 688 301 900 262V360H0V319Z" fill="#274A40"/>
+  <path d="M182 305C232 246 300 226 365 246L448 276C471 285 467 316 443 321L308 309L234 340H164L182 305Z" fill="#D17C5B"/>
+  <path d="M718 305C668 246 600 226 535 246L452 276C429 285 433 316 457 321L592 309L666 340H736L718 305Z" fill="#E6A06C"/>
+  <ellipse cx="450" cy="260" rx="82" ry="42" fill="#F6D48E" stroke="#97624E" stroke-width="5"/>
+  <path d="M450 230V291M420 260H480" stroke="#8E5C49" stroke-width="5" stroke-linecap="round"/>
+  <path d="M450 180V220M432 200H468" stroke="#FFF1C3" stroke-width="6" stroke-linecap="round"/>
+</svg>

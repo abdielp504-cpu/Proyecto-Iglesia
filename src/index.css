@@ -3,11 +3,23 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #172033;
-  background: #f8fafc;
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: #444141;
+  background: #fefffc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  --parchment: #fefffc;
+  --paper: #ffffff;
+  --linen: #f9faf7;
+  --ink: #171717;
+  --graphite: #2c2c2c;
+  --charcoal: #444141;
+  --ash: #646464;
+  --mist: #dee2de;
+  --twilight: #282834;
+  --dusk: #1f1f29;
+  --signal: #41a1cf;
+  --cerulean: #0081c0;
 }
 
 * {
@@ -15,8 +27,11 @@
 }
 
 body {
-  margin: 0;
   min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 85% 4%, rgba(65, 161, 207, 0.08), transparent 25rem),
+    var(--parchment);
 }
 
 button,
@@ -24,4 +39,76 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: white;
+  background: var(--cerulean);
+}
+
+/* The existing Tailwind screens inherit the editorial palette. */
+.bg-slate-50,
+.bg-slate-100 { background-color: var(--parchment) !important; }
+.bg-white { background-color: var(--paper) !important; }
+.bg-slate-950 { background-color: var(--dusk) !important; }
+.bg-slate-900 { background-color: var(--graphite) !important; }
+.text-slate-950,
+.text-slate-900 { color: var(--graphite) !important; }
+.text-slate-700,
+.text-slate-600 { color: var(--charcoal) !important; }
+.text-slate-500,
+.text-slate-400 { color: var(--ash) !important; }
+.border-slate-200,
+.border-slate-100 { border-color: var(--mist) !important; }
+.divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: var(--mist) !important; }
+.bg-indigo-700,
+.bg-indigo-600 { background-color: var(--dusk) !important; }
+.bg-indigo-950 { background-color: var(--twilight) !important; }
+.text-indigo-700,
+.text-indigo-600 { color: var(--cerulean) !important; }
+.border-indigo-500 { border-color: var(--signal) !important; }
+.bg-indigo-50,
+.bg-indigo-100 { background-color: #edf7fb !important; }
+.text-indigo-950 { color: var(--twilight) !important; }
+.focus\:border-indigo-500:focus { border-color: var(--signal) !important; }
+.focus\:ring-indigo-100:focus { --tw-ring-color: rgba(65, 161, 207, 0.18) !important; }
+.shadow-soft { box-shadow: 0 1px 1px rgba(23, 23, 23, 0.06), 0 4px 14px rgba(23, 23, 23, 0.05) !important; }
+
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400 !important;
+  letter-spacing: -0.035em;
+  color: var(--graphite);
+}
+
+input,
+textarea,
+select {
+  border-radius: 0 !important;
+  background: var(--linen) !important;
+  border-color: transparent !important;
+  border-bottom: 1px solid var(--charcoal) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-bottom-color: var(--signal) !important;
+  box-shadow: 0 2px 0 rgba(65, 161, 207, 0.2) !important;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+main > * {
+  animation: rise-in 500ms ease both;
 }

@@ -3,6 +3,7 @@ import { Edit3, Mail, Phone, Plus, Search, UserCheck, UserX, Users } from 'lucid
 import { useApp } from '../context/AppContext'
 import { ROLES } from '../data/seedData'
 import { Alert, Button, Field, Modal, SelectField } from '../components/ui'
+import membersGarden from '../assets/members-garden.svg'
 
 const editableRoles = [ROLES.ADMINISTRADOR, ROLES.PASTOR, ROLES.SECRETARIO]
 const emptyMember = { fullName: '', phone: '', email: '', joinDate: '', status: 'ACTIVO' }
@@ -66,10 +67,7 @@ export default function Members() {
   }
 
   return <div className="mx-auto max-w-6xl">
-    <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-      <div><p className="mb-2 text-sm font-medium text-indigo-600">Comunidad</p><h1 className="text-3xl font-bold text-slate-900">Miembros</h1><p className="mt-2 text-slate-500">Consulta y administra el directorio de la iglesia.</p></div>
-      {canEdit && <Button onClick={openCreate}><Plus size={18} />Nuevo miembro</Button>}
-    </div>
+    <section className="relative mb-8 min-h-[225px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"><img src={membersGarden} alt="Miembros de la iglesia reunidos en comunidad" className="absolute inset-0 h-full w-full object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent" /><div className="relative flex min-h-[225px] max-w-xl flex-col justify-center p-6 sm:p-10"><p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-indigo-600">Comunidad y cuidado</p><h1 className="text-4xl leading-tight text-slate-900">Miembros</h1><p className="mt-3 text-sm leading-7 text-slate-500">Conoce y acompaña a las personas que forman parte de la vida de la iglesia.</p>{canEdit && <Button className="mt-5 w-fit" onClick={openCreate}><Plus size={18} />Nuevo miembro</Button>}</div></section>
     <div className="mb-5 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-soft md:grid-cols-[1fr_220px]">
       <label className="relative block"><span className="sr-only">Buscar por nombre</span><Search className="absolute left-3 top-2.5 text-slate-400" size={18} /><input className="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3 text-sm outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100" placeholder="Buscar por nombre..." value={query} onChange={(event) => setQuery(event.target.value)} /></label>
       <SelectField label="Estado" options={statusOptions} value={status} onChange={(event) => setStatus(event.target.value)} />

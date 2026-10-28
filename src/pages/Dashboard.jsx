@@ -25,11 +25,12 @@ import {
   Users,
   WalletCards,
 } from 'lucide-react'
+import churchAtDusk from '../assets/church-at-dusk.svg'
 import { useApp } from '../context/AppContext'
 import { ROLE_LABELS, ROLES } from '../data/seedData'
 
 const financialRoles = [ROLES.TESORERO, ROLES.ADMINISTRADOR, ROLES.PASTOR]
-const pieColors = ['#4338ca', '#059669', '#d97706', '#e11d48', '#0891b2', '#7c3aed']
+const pieColors = ['#0081c0', '#4b806f', '#c18a45', '#b55b55', '#6c8e9c', '#6d6a86']
 const conceptLabels = {
   DIEZMO: 'Diezmo',
   OFRENDA_GENERAL: 'Ofrenda',
@@ -134,13 +135,25 @@ export default function Dashboard() {
   ]
 
   return <div className="mx-auto max-w-7xl">
+    <section className="relative mb-10 min-h-[310px] overflow-hidden rounded-2xl bg-slate-950 text-white shadow-soft sm:min-h-[350px]">
+      <img src={churchAtDusk} alt="Iglesia al atardecer" className="absolute inset-0 h-full w-full object-cover opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-transparent" />
+      <div className="relative flex min-h-[310px] max-w-2xl flex-col justify-end p-6 sm:min-h-[350px] sm:p-10">
+        <p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-cyan-200">{ROLE_LABELS[currentUser.role]} · {churchConfig.name}</p>
+        <div className="mb-4 paper-rule bg-cyan-200" />
+        <h1 className="max-w-2xl text-4xl leading-tight text-white sm:text-5xl">Cuidar una iglesia también es cuidar sus detalles.</h1>
+        <p className="mt-4 max-w-xl text-sm leading-7 text-slate-200">Este es el pulso de tu comunidad: personas, encuentros y recursos reunidos para servir mejor.</p>
+      </div>
+    </section>
+
     <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
       <div>
-        <p className="mb-2 text-sm font-medium text-indigo-600">{ROLE_LABELS[currentUser.role]}</p>
-        <h1 className="text-3xl font-bold text-slate-900">Panel principal</h1>
-        <p className="mt-2 text-slate-500">Resumen en tiempo real de {churchConfig.name}.</p>
+        <p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-indigo-600">{ROLE_LABELS[currentUser.role]} · {churchConfig.name}</p>
+        <div className="paper-rule mb-4" />
+        <h2 className="text-3xl leading-tight text-slate-900">El pulso de la comunidad</h2>
+        <p className="mt-2 text-sm leading-7 text-slate-500">Un resumen para acompañar cada área con atención.</p>
       </div>
-      <span className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-500 shadow-soft">Actualizado hoy</span>
+      <span className="border-b border-slate-300 pb-2 text-xs font-medium text-slate-500">Actualizado hoy</span>
     </div>
 
     <div className={`grid gap-4 ${canSeeFinances ? 'md:grid-cols-3 xl:grid-cols-5' : 'md:grid-cols-2 xl:grid-cols-4'}`}>

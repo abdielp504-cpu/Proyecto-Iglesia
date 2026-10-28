@@ -2,12 +2,12 @@ import { AlertCircle, CheckCircle2, X } from 'lucide-react'
 
 export function Button({ children, variant = 'primary', className = '', ...props }) {
   const styles = {
-    primary: 'bg-indigo-700 text-white hover:bg-indigo-800 focus:ring-indigo-300',
+    primary: 'bg-slate-900 text-white hover:bg-slate-950 focus:ring-indigo-300',
     secondary: 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 focus:ring-slate-200',
     danger: 'bg-rose-50 text-rose-700 hover:bg-rose-100 focus:ring-rose-200',
     ghost: 'text-slate-600 hover:bg-slate-100 focus:ring-slate-200',
   }
-  return <button className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50 ${styles[variant]} ${className}`} {...props}>{children}</button>
+  return <button className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium tracking-tight transition focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50 ${styles[variant]} ${className}`} {...props}>{children}</button>
 }
 
 export function Field({ label, error, className = '', ...props }) {

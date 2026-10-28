@@ -1,0 +1,9 @@
+<svg width="900" height="360" viewBox="0 0 900 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="b" x1="450" y1="0" x2="450" y2="360" gradientUnits="userSpaceOnUse"><stop stop-color="#243B52"/><stop offset="1" stop-color="#A46B58"/></linearGradient></defs>
+  <rect width="900" height="360" fill="url(#b)"/><circle cx="450" cy="145" r="94" fill="#F6D896" fill-opacity=".12"/>
+  <path d="M0 286C126 248 226 279 339 249C478 212 589 274 704 239C790 213 853 228 900 216V360H0V286Z" fill="#162A36"/>
+  <g fill="#E0A268"><circle cx="450" cy="78" r="16"/><circle cx="356" cy="109" r="11"/><circle cx="544" cy="109" r="11"/><circle cx="294" cy="174" r="8"/><circle cx="606" cy="174" r="8"/></g>
+  <g stroke="#F5D99A" stroke-width="5" stroke-linecap="round"><path d="M450 110V185"/><path d="M415 148H485"/><path d="M356 133V195"/><path d="M330 164H382"/><path d="M544 133V195"/><path d="M518 164H570"/><path d="M294 192V236"/><path d="M276 214H312"/><path d="M606 192V236"/><path d="M588 214H624"/></g>
+  <path d="M252 280C306 231 362 225 450 266C538 225 594 231 648 280" stroke="#E0A268" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="450" cy="259" r="22" fill="#F5D99A"/><path d="M450 243V275M434 259H466" stroke="#5C5262" stroke-width="4"/>
+</svg>
