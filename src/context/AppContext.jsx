@@ -51,6 +51,47 @@ export function AppProvider({ children }) {
     setData((previous) => ({ ...previous, [collection]: value }))
   }
 
+  const addCollectionItem = (collection, item, prefix) => {
+    const newItem = { ...item, id: `${prefix}-${Date.now()}` }
+    setData((previous) => ({ ...previous, [collection]: [...previous[collection], newItem] }))
+    return newItem
+  }
+
+  const updateCollectionItem = (collection, id, changes) => {
+    setData((previous) => ({
+      ...previous,
+      [collection]: previous[collection].map((item) => (item.id === id ? { ...item, ...changes } : item)),
+    }))
+  }
+
+  const addMember = (member) => addCollectionItem('members', member, 'mbr')
+  const updateMember = (id, changes) => updateCollectionItem('members', id, changes)
+  const toggleMemberStatus = (id) => {
+    setData((previous) => ({
+      ...previous,
+      members: previous.members.map((member) => (
+        member.id === id
+          ? { ...member, status: member.status === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO' }
+          : member
+      )),
+    }))
+  }
+
+  const addMinistry = (ministry) => addCollectionItem('ministries', ministry, 'min')
+  const updateMinistry = (id, changes) => updateCollectionItem('ministries', id, changes)
+  const toggleMinistryMember = (ministryId, memberId) => {
+    setData((previous) => ({
+      ...previous,
+      ministries: previous.ministries.map((ministry) => {
+        if (ministry.id !== ministryId) return ministry
+        const memberIds = ministry.memberIds.includes(memberId)
+          ? ministry.memberIds.filter((id) => id !== memberId)
+          : [...ministry.memberIds, memberId]
+        return { ...ministry, memberIds }
+      }),
+    }))
+  }
+
   const updateChurchConfig = (changes) => {
     setData((previous) => ({ ...previous, churchConfig: { ...previous.churchConfig, ...changes } }))
   }
@@ -65,7 +106,22 @@ export function AppProvider({ children }) {
   }
 
   const value = useMemo(
-    () => ({ ...data, currentUser, login, logout, updateChurchConfig, addUser, updateUser, updateCollection }),
+    () => ({
+      ...data,
+      currentUser,
+      login,
+      logout,
+      updateChurchConfig,
+      addUser,
+      updateUser,
+      updateCollection,
+      addMember,
+      updateMember,
+      toggleMemberStatus,
+      addMinistry,
+      updateMinistry,
+      toggleMinistryMember,
+    }),
     [data, currentUser],
   )
 
