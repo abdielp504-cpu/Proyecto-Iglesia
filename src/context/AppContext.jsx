@@ -64,6 +64,22 @@ export function AppProvider({ children }) {
     }))
   }
 
+  const addEvent = (event) => addCollectionItem('events', event, 'evt')
+  const updateEvent = (id, changes) => updateCollectionItem('events', id, changes)
+
+  const saveAttendance = (eventId, date, records) => {
+    setData((previous) => {
+      const existing = previous.attendance.find((item) => item.eventId === eventId && item.date === date)
+      const next = { id: existing?.id || `att-${Date.now()}`, eventId, date, records, savedAt: new Date().toISOString() }
+      return {
+        ...previous,
+        attendance: existing
+          ? previous.attendance.map((item) => (item.id === existing.id ? next : item))
+          : [...previous.attendance, next],
+      }
+    })
+  }
+
   const addMember = (member) => addCollectionItem('members', member, 'mbr')
   const updateMember = (id, changes) => updateCollectionItem('members', id, changes)
   const toggleMemberStatus = (id) => {
@@ -121,6 +137,9 @@ export function AppProvider({ children }) {
       addMinistry,
       updateMinistry,
       toggleMinistryMember,
+      addEvent,
+      updateEvent,
+      saveAttendance,
     }),
     [data, currentUser],
   )
