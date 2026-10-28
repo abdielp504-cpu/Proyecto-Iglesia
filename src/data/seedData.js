@@ -44,11 +44,14 @@ export const seedData = {
     { id: 'min-003', name: 'Servicio y Ayuda', description: 'Acciones de servicio práctico y apoyo a familias.', responsibleId: 'usr-coordinator', memberIds: ['mbr-001', 'mbr-005'], color: 'amber' },
   ],
   events: [
-    { id: 'evt-001', ministryId: 'min-001', title: 'Ensayo general', date: '2026-11-05', time: '19:30', location: 'Salón principal' },
-    { id: 'evt-002', ministryId: 'min-002', title: 'Reunión de jóvenes', date: '2026-11-07', time: '18:00', location: 'Salón de usos múltiples' },
-    { id: 'evt-003', ministryId: 'min-003', title: 'Visita comunitaria', date: '2026-11-14', time: '09:00', location: 'Punto de encuentro' },
+    { id: 'evt-001', ministryId: 'min-001', title: 'Ensayo general', type: 'ADMINISTRATIVO', date: '2026-11-05', time: '19:30', location: 'Salón principal', description: 'Preparación musical para el culto dominical.', responsibleId: 'mbr-001', status: 'PROGRAMADO' },
+    { id: 'evt-002', ministryId: 'min-002', title: 'Reunión de jóvenes', type: 'ADMINISTRATIVO', date: '2026-11-07', time: '18:00', location: 'Salón de usos múltiples', description: 'Reunión semanal de formación y convivencia.', responsibleId: 'usr-coordinator', status: 'PROGRAMADO' },
+    { id: 'evt-003', ministryId: 'min-003', title: 'Visita comunitaria', type: 'ADMINISTRATIVO', date: '2026-11-14', time: '09:00', location: 'Punto de encuentro', description: 'Servicio de apoyo a familias de la comunidad.', responsibleId: 'mbr-005', status: 'PROGRAMADO' },
+    { id: 'evt-004', title: 'Culto de celebración', type: 'RELIGIOSO', date: '2026-11-08', time: '10:00', location: 'Templo principal', description: 'Reunión general de adoración y enseñanza.', responsibleId: 'usr-pastor', status: 'PROGRAMADO' },
   ],
-  attendance: [],
+  attendance: [
+    { id: 'att-001', eventId: 'evt-004', date: '2026-10-25', records: [{ memberId: 'mbr-001', status: 'PRESENTE' }, { memberId: 'mbr-002', status: 'PRESENTE' }, { memberId: 'mbr-003', status: 'AUSENTE' }, { memberId: 'mbr-005', status: 'PRESENTE' }], savedAt: '2026-10-25T13:00:00.000Z' },
+  ],
   donations: [],
   announcements: [],
 }
