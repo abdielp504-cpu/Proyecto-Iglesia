@@ -67,6 +67,17 @@ export function AppProvider({ children }) {
   const addEvent = (event) => addCollectionItem('events', event, 'evt')
   const updateEvent = (id, changes) => updateCollectionItem('events', id, changes)
 
+  const addDonation = (donation) => addCollectionItem('donations', donation, 'don')
+  const updateDonation = (id, changes) => updateCollectionItem('donations', id, changes)
+  const addAnnouncement = (announcement) => addCollectionItem('announcements', announcement, 'ann')
+  const updateAnnouncement = (id, changes) => updateCollectionItem('announcements', id, changes)
+  const removeAnnouncement = (id) => {
+    setData((previous) => ({
+      ...previous,
+      announcements: previous.announcements.filter((announcement) => announcement.id !== id),
+    }))
+  }
+
   const saveAttendance = (eventId, date, records) => {
     setData((previous) => {
       const existing = previous.attendance.find((item) => item.eventId === eventId && item.date === date)
@@ -140,6 +151,11 @@ export function AppProvider({ children }) {
       addEvent,
       updateEvent,
       saveAttendance,
+      addDonation,
+      updateDonation,
+      addAnnouncement,
+      updateAnnouncement,
+      removeAnnouncement,
     }),
     [data, currentUser],
   )

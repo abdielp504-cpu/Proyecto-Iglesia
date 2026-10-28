@@ -52,8 +52,15 @@ export const seedData = {
   attendance: [
     { id: 'att-001', eventId: 'evt-004', date: '2026-10-25', records: [{ memberId: 'mbr-001', status: 'PRESENTE' }, { memberId: 'mbr-002', status: 'PRESENTE' }, { memberId: 'mbr-003', status: 'AUSENTE' }, { memberId: 'mbr-005', status: 'PRESENTE' }], savedAt: '2026-10-25T13:00:00.000Z' },
   ],
-  donations: [],
-  announcements: [],
+  donations: [
+    { id: 'don-001', date: '2026-10-03', amount: 1250, concept: 'DIEZMO', method: 'TRANSFERENCIA', anonymous: false, memberId: 'mbr-001' },
+    { id: 'don-002', date: '2026-10-11', amount: 860, concept: 'OFRENDA_GENERAL', method: 'EFECTIVO', anonymous: true, memberId: null },
+    { id: 'don-003', date: '2026-10-18', amount: 2400, concept: 'CONSTRUCCION', method: 'DEPOSITO', anonymous: false, memberId: 'mbr-002' },
+  ],
+  announcements: [
+    { id: 'ann-001', title: 'Campaña de apoyo comunitario', content: 'Durante noviembre estaremos reuniendo alimentos no perecederos para familias de nuestra comunidad. Puedes entregarlos los domingos en recepción.', publishedAt: '2026-10-20', importance: 'IMPORTANTE' },
+    { id: 'ann-002', title: 'Nuevo horario de estudio bíblico', content: 'A partir de esta semana el estudio bíblico se realizará los miércoles a las 19:30 en el salón principal.', publishedAt: '2026-10-15', importance: 'GENERAL' },
+  ],
 }
 
 export const STORAGE_KEY = 'iglesia-app-data'
