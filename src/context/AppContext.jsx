@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { seedData, STORAGE_KEY, SESSION_KEY } from '../data/seedData'
+import { supabase } from '../supabaseClient'
 
 const AppContext = createContext(null)
 
@@ -24,6 +25,45 @@ function loadSession() {
 export function AppProvider({ children }) {
   const [data, setData] = useState(loadData)
   const [currentUser, setCurrentUser] = useState(loadSession)
+
+  // Cargar datos desde Supabase al iniciar
+  useEffect(() => {
+    async function fetchSupabaseData() {
+      try {
+        const [
+          membersRes,
+          eventsRes,
+          donationsRes,
+          announcementsRes,
+          attendanceRes,
+          ministriesRes,
+          usersRes
+        ] = await Promise.all([
+          supabase.from('members').select('*'),
+          supabase.from('events').select('*'),
+          supabase.from('donations').select('*'),
+          supabase.from('announcements').select('*'),
+          supabase.from('attendance').select('*'),
+          supabase.from('ministries').select('*'),
+          supabase.from('users').select('*'),
+        ])
+
+        setData((previous) => ({
+          ...previous,
+          members: membersRes.data?.length ? membersRes.data : previous.members,
+          events: eventsRes.data?.length ? eventsRes.data : previous.events,
+          donations: donationsRes.data?.length ? donationsRes.data : previous.donations,
+          announcements: announcementsRes.data?.length ? announcementsRes.data : previous.announcements,
+          attendance: attendanceRes.data?.length ? attendanceRes.data : previous.attendance,
+          ministries: ministriesRes.data?.length ? ministriesRes.data : previous.ministries,
+          users: usersRes.data?.length ? usersRes.data : previous.users,
+        }))
+      } catch (err) {
+        console.error('Error sincronizando con Supabase:', err)
+      }
+    }
+    fetchSupabaseData()
+  }, [])
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
@@ -51,17 +91,31 @@ export function AppProvider({ children }) {
     setData((previous) => ({ ...previous, [collection]: value }))
   }
 
-  const addCollectionItem = (collection, item, prefix) => {
+  const addCollectionItem = async (collection, item, prefix) => {
     const newItem = { ...item, id: `${prefix}-${Date.now()}` }
     setData((previous) => ({ ...previous, [collection]: [...previous[collection], newItem] }))
+    
+    // Guardar en Supabase
+    try {
+      await supabase.from(collection).insert([newItem])
+    } catch (err) {
+      console.error(`Error guardando en Supabase (${collection}):`, err)
+    }
     return newItem
   }
 
-  const updateCollectionItem = (collection, id, changes) => {
+  const updateCollectionItem = async (collection, id, changes) => {
     setData((previous) => ({
       ...previous,
       [collection]: previous[collection].map((item) => (item.id === id ? { ...item, ...changes } : item)),
     }))
+
+    // Actualizar en Supabase
+    try {
+      await supabase.from(collection).update(changes).eq('id', id)
+    } catch (err) {
+      console.error(`Error actualizando en Supabase (${collection}):`, err)
+    }
   }
 
   const addEvent = (event) => addCollectionItem('events', event, 'evt')
@@ -69,19 +123,28 @@ export function AppProvider({ children }) {
 
   const addDonation = (donation) => addCollectionItem('donations', donation, 'don')
   const updateDonation = (id, changes) => updateCollectionItem('donations', id, changes)
+  
   const addAnnouncement = (announcement) => addCollectionItem('announcements', announcement, 'ann')
   const updateAnnouncement = (id, changes) => updateCollectionItem('announcements', id, changes)
-  const removeAnnouncement = (id) => {
+  
+  const removeAnnouncement = async (id) => {
     setData((previous) => ({
       ...previous,
       announcements: previous.announcements.filter((announcement) => announcement.id !== id),
     }))
+    try {
+      await supabase.from('announcements').delete().eq('id', id)
+    } catch (err) {
+      console.error('Error eliminando en Supabase (announcements):', err)
+    }
   }
 
-  const saveAttendance = (eventId, date, records) => {
+  const saveAttendance = async (eventId, date, records) => {
+    let targetId = null
     setData((previous) => {
       const existing = previous.attendance.find((item) => item.eventId === eventId && item.date === date)
-      const next = { id: existing?.id || `att-${Date.now()}`, eventId, date, records, savedAt: new Date().toISOString() }
+      targetId = existing?.id || `att-${Date.now()}`
+      const next = { id: targetId, eventId, date, records, savedAt: new Date().toISOString() }
       return {
         ...previous,
         attendance: existing
@@ -89,48 +152,70 @@ export function AppProvider({ children }) {
           : [...previous.attendance, next],
       }
     })
+    try {
+      await supabase.from('attendance').upsert({ id: targetId, eventId, date, records, savedAt: new Date().toISOString() })
+    } catch (err) {
+      console.error('Error guardando asistencia en Supabase:', err)
+    }
   }
 
   const addMember = (member) => addCollectionItem('members', member, 'mbr')
   const updateMember = (id, changes) => updateCollectionItem('members', id, changes)
-  const toggleMemberStatus = (id) => {
+  const toggleMemberStatus = async (id) => {
+    let newStatus = 'ACTIVO'
     setData((previous) => ({
       ...previous,
-      members: previous.members.map((member) => (
-        member.id === id
-          ? { ...member, status: member.status === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO' }
-          : member
-      )),
+      members: previous.members.map((member) => {
+        if (member.id === id) {
+          newStatus = member.status === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO'
+          return { ...member, status: newStatus }
+        }
+        return member
+      }),
     }))
+    try {
+      await supabase.from('members').update({ status: newStatus }).eq('id', id)
+    } catch (err) {
+      console.error('Error actualizando estado de miembro en Supabase:', err)
+    }
   }
 
   const addMinistry = (ministry) => addCollectionItem('ministries', ministry, 'min')
   const updateMinistry = (id, changes) => updateCollectionItem('ministries', id, changes)
-  const toggleMinistryMember = (ministryId, memberId) => {
+  const toggleMinistryMember = async (ministryId, memberId) => {
+    let updatedMemberIds = []
     setData((previous) => ({
       ...previous,
       ministries: previous.ministries.map((ministry) => {
         if (ministry.id !== ministryId) return ministry
-        const memberIds = ministry.memberIds.includes(memberId)
+        updatedMemberIds = ministry.memberIds.includes(memberId)
           ? ministry.memberIds.filter((id) => id !== memberId)
           : [...ministry.memberIds, memberId]
-        return { ...ministry, memberIds }
+        return { ...ministry, memberIds: updatedMemberIds }
       }),
     }))
+    try {
+      await supabase.from('ministries').update({ memberIds: updatedMemberIds }).eq('id', ministryId)
+    } catch (err) {
+      console.error('Error actualizando ministerio en Supabase:', err)
+    }
   }
 
-  const updateChurchConfig = (changes) => {
+  const updateChurchConfig = async (changes) => {
     setData((previous) => ({ ...previous, churchConfig: { ...previous.churchConfig, ...changes } }))
+    try {
+      await supabase.from('church_config').upsert({ id: 1, ...changes })
+    } catch (err) {
+      console.error('Error actualizando configuración en Supabase:', err)
+    }
   }
 
   const addUser = (user) => {
     const newUser = { ...user, id: `usr-${Date.now()}`, active: true }
-    updateCollection('users', [...data.users, newUser])
+    addCollectionItem('users', newUser, 'usr')
   }
 
-  const updateUser = (id, changes) => {
-    updateCollection('users', data.users.map((user) => (user.id === id ? { ...user, ...changes } : user)))
-  }
+  const updateUser = (id, changes) => updateCollectionItem('users', id, changes)
 
   const value = useMemo(
     () => ({
