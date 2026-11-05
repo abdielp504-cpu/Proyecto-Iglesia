@@ -17,6 +17,7 @@ import Attendance from './pages/Attendance'
 import Donations from './pages/Donations'
 import Announcements from './pages/Announcements'
 import Reports from './pages/Reports'
+import ProfilePage from './pages/ProfilePage'
 import { ROLES } from './data/seedData'
 import { useApp } from './context/AppContext'
 import { Alert } from './components/ui'
@@ -29,6 +30,10 @@ function AdminOnly() {
 function ConfigAccess() {
   const { currentUser } = useApp()
   return <RoleGuard allowedRoles={[ROLES.ADMINISTRADOR, ROLES.PASTOR]} fallback={<Navigate to="/" replace />}><ChurchConfigPage /></RoleGuard>
+}
+
+function ProfileAccess() {
+  return <ProfilePage />
 }
 
 function MembersAccess() {
@@ -66,7 +71,7 @@ function ReportsAccess() {
 }
 
 function AppRoutes() {
-  return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}><Route index element={<Dashboard />} /><Route path="usuarios" element={<AdminOnly />} /><Route path="miembros" element={<MembersAccess />} /><Route path="ministerios" element={<MinistriesAccess />} /><Route path="eventos" element={<EventsAccess />} /><Route path="asistencia" element={<AttendanceAccess />} /><Route path="donaciones" element={<DonationsAccess />} /><Route path="comunicados" element={<AnnouncementsAccess />} /><Route path="reportes" element={<ReportsAccess />} /><Route path="configuracion" element={<ConfigAccess />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes>
+  return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}><Route index element={<Dashboard />} /><Route path="usuarios" element={<AdminOnly />} /><Route path="miembros" element={<MembersAccess />} /><Route path="ministerios" element={<MinistriesAccess />} /><Route path="eventos" element={<EventsAccess />} /><Route path="asistencia" element={<AttendanceAccess />} /><Route path="donaciones" element={<DonationsAccess />} /><Route path="comunicados" element={<AnnouncementsAccess />} /><Route path="reportes" element={<ReportsAccess />} /><Route path="configuracion" element={<ConfigAccess />} /><Route path="perfil" element={<ProfileAccess />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes>
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><AppProvider><BrowserRouter><AppRoutes /></BrowserRouter></AppProvider></React.StrictMode>)

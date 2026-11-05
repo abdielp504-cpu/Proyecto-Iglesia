@@ -15,6 +15,10 @@ export const ROLE_LABELS = {
 }
 
 export const seedData = {
+  preferences: {
+    accent: 'ocean',
+    density: 'comfortable',
+  },
   users: [
     { id: 'usr-admin', name: 'María González', email: 'admin@iglesia.org', password: 'Admin123!', role: ROLES.ADMINISTRADOR, active: true },
     { id: 'usr-pastor', name: 'Samuel Martínez', email: 'pastor@iglesia.org', password: 'Pastor123!', role: ROLES.PASTOR, active: true },
